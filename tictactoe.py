@@ -8,7 +8,6 @@ X = "X"
 O = "O"
 EMPTY = None
 
-
 def initial_state():
     """
     Returns starting state of the board.
@@ -16,7 +15,6 @@ def initial_state():
     return [[EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
-
 
 def player(board):
     """
@@ -27,7 +25,6 @@ def player(board):
     if x_count == o_count:
         return X
     return O
-
 
 def actions(board):
     """
@@ -41,9 +38,6 @@ def actions(board):
                 actions.add((i, j))
     return actions
 
-    raise NotImplementedError
-
-
 def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
@@ -53,9 +47,6 @@ def result(board, action):
     playermove = player(board)
     copyboard[action[0]][action[1]] = playermove
     return copyboard
-
-    raise NotImplementedError
-
 
 def winner(board):
     """
@@ -106,7 +97,6 @@ def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    if terminal(board):
         if winner(board) == X:
             return 1
         elif winner(board) == O:
@@ -118,7 +108,6 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
     """
     # if the game is over, return None
-
     is_terminal = terminal(board)
     
     if is_terminal:
@@ -152,6 +141,8 @@ def minimax(board):
         # iterate over all actions to find the best action considering the current board state and potential future states considering opponent's moves
         for action in actions(board):
             score = min_value(result(board, action))
+            if score == 1:     # best possible score for X so further search is not needed
+                return action
             if score > best_scoreX:
                 best_scoreX = score
                 best_actionX = action
@@ -161,6 +152,8 @@ def minimax(board):
         best_actionO = None
         for action in actions(board):
             score = max_value(result(board, action))
+            if score == -1:
+                return action
             if score < best_scoreO:
                 best_scoreO = score
                 best_actionO = action
