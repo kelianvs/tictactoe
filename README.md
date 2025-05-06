@@ -14,3 +14,7 @@ showcases:
 - recursion
 - game state management
 - minimax algorithm
+
+
+how to run
+python runner.py
